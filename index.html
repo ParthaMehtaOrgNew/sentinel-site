@@ -98,6 +98,44 @@
     </div>
   </section>
 
+  <!-- Sentinel vs Breach Intel -->
+  <section>
+    <div class="container">
+      <div class="section-header fade-in">
+        <div class="section-eyebrow"><span class="dot"></span> Previously launched: Breach Intel</div>
+        <h2 class="section-title">How Sentinel differs from Breach Intel</h2>
+        <p class="section-sub">We launched <a href="https://parthamehtaorg.github.io/breach-intel-site/" style="color:var(--accent);">Breach Intel</a> as a standalone compliance audit layer. Sentinel is the full security platform that includes Breach Intel and adds seven more defense layers around it.</p>
+      </div>
+      <div class="table-wrap fade-in">
+        <table>
+          <thead>
+            <tr><th>Capability</th><th>Breach Intel</th><th>Sentinel</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Compliance breach detection</td><td class="check">&#10003; 40+ types, 3 verticals</td><td class="check">&#10003; Included (same engine)</td></tr>
+            <tr><td>SHA-256 immutable audit log</td><td class="check">&#10003;</td><td class="check">&#10003; Included</td></tr>
+            <tr><td>Auto-instrumentation (sitecustomize.py)</td><td class="check">&#10003;</td><td class="check">&#10003; Included</td></tr>
+            <tr><td>Prompt injection blocking</td><td class="cross">&mdash;</td><td class="check">&#10003; 3-layer analysis (&lt;1ms / &lt;50ms / LLM)</td></tr>
+            <tr><td>DLP &amp; content scanning</td><td class="cross">&mdash;</td><td class="check">&#10003; 9 scanners + LLM classification</td></tr>
+            <tr><td>LLM response proxy (cost/latency/tokens)</td><td class="cross">&mdash;</td><td class="check">&#10003; 16-model pricing table</td></tr>
+            <tr><td>Endpoint monitoring</td><td class="cross">&mdash;</td><td class="check">&#10003; 5 monitors (process, behavioral, file, honeypot, privilege)</td></tr>
+            <tr><td>OpenClaw plugin (8 hooks)</td><td style="color:var(--text-secondary);">1 hook (message:sent)</td><td class="check">&#10003; 8 hooks + 2 secure tools</td></tr>
+            <tr><td>Block rules engine</td><td class="cross">&mdash;</td><td class="check">&#10003; keyword / regex / recipient / channel</td></tr>
+            <tr><td>Channel security (Telegram, WhatsApp, etc.)</td><td class="cross">&mdash;</td><td class="check">&#10003; message_sending + before_message_write</td></tr>
+            <tr><td>Honeypot traps</td><td class="cross">&mdash;</td><td class="check">&#10003; Decoy .env, .aws/credentials, .ssh/id_rsa</td></tr>
+            <tr><td>Hardened Docker containers</td><td class="cross">&mdash;</td><td class="check">&#10003; seccomp, cap_drop, read-only rootfs</td></tr>
+            <tr><td>Unified dashboard</td><td style="color:var(--text-secondary);">Breach dashboard only</td><td class="check">&#10003; 6 tabs: Overview, Live Events, Traces, Breaches, Rules, Settings</td></tr>
+            <tr><td>Trace visualization &amp; cost tracking</td><td class="cross">&mdash;</td><td class="check">&#10003; Expandable span trees, per-model cost</td></tr>
+            <tr><td>Background services (auto-start on boot)</td><td style="color:var(--text-secondary);">Docker only</td><td class="check">&#10003; LaunchAgent (macOS) / systemd (Linux)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fade-in" style="font-size:0.92rem;color:var(--text-secondary);line-height:1.7;margin-top:1.5rem;max-width:700px;">
+        <strong style="color:var(--text);">In short:</strong> Breach Intel answers <em>"what compliance violations did my AI commit?"</em> — Sentinel answers that <strong>and</strong> <em>"how do I prevent them from happening in the first place?"</em> Think of Breach Intel as one layer inside Sentinel. If you're already using Breach Intel, Sentinel wraps it with prompt blocking, DLP, endpoint monitoring, channel security, and a unified dashboard.
+      </p>
+    </div>
+  </section>
+
   <!-- What's Included -->
   <section class="bg-warm" id="layers">
     <div class="container">
