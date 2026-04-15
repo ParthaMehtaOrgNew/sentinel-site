@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Docs — Sentinel | AI Agent Security Platform</title>
+  <meta name="description" content="Sentinel documentation — installation, configuration, security layers, API reference, and guides.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .docs-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: calc(100vh - 60px);
+    }
+
+    /* Sidebar */
+    .docs-sidebar {
+      position: sticky;
+      top: 60px;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
+      padding: 2rem 1.5rem 2rem 2rem;
+      border-right: 1px solid var(--border);
+      background: var(--bg);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .docs-sidebar::-webkit-scrollbar { width: 4px; }
+    .docs-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .sidebar-section { margin-bottom: 1.5rem; }
+    .sidebar-heading {
+      font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--text-tertiary); font-weight: 700; margin-bottom: 0.5rem; padding: 0 0.5rem;
+    }
+    .sidebar-link {
+      display: block; padding: 0.35rem 0.5rem; font-size: 0.82rem;
+      color: var(--text-secondary); border-radius: var(--radius-sm);
+      transition: all 0.15s var(--ease); text-decoration: none; line-height: 1.4;
+    }
+    .sidebar-link:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+    .sidebar-link.active { color: var(--accent); background: var(--accent-bg); }
+
+    /* Main content */
+    .docs-content {
+      padding: 2.5rem 3rem 4rem;
+      max-width: 800px;
+    }
+    .docs-content h1 {
+      font-size: 2.2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem;
+    }
+    .docs-content > p.lead {
+      font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 2.5rem;
+    }
+    .docs-content h2 {
+      font-size: 1.3rem; font-weight: 700; margin-top: 3rem; margin-bottom: 1rem;
+      padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); scroll-margin-top: 80px;
+    }
+    .docs-content h3 {
+      font-size: 1rem; font-weight: 700; margin-top: 2rem; margin-bottom: 0.75rem; scroll-margin-top: 80px;
+    }
+    .docs-content p {
+      font-size: 0.92rem; color: var(--text-secondary); line-height: 1.75; margin-bottom: 1rem;
+    }
+    .docs-content ul, .docs-content ol { padding-left: 1.4rem; margin-bottom: 1rem; }
+    .docs-content li {
+      font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 0.3rem;
+    }
+
+    /* Code blocks */
+    .code-block {
+      position: relative; background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: var(--radius-md); margin: 1rem 0 1.5rem; overflow: hidden;
+    }
+    .code-lang {
+      position: absolute; top: 0.5rem; right: 0.75rem;
+      font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-tertiary); font-weight: 600; font-family: var(--font-mono);
+    }
+    .code-block pre {
+      padding: 1.25rem 1.4rem; font-family: var(--font-mono); font-size: 0.8rem;
+      line-height: 1.7; color: var(--text-secondary); overflow-x: auto; margin: 0;
+    }
+    .code-block .prompt { color: var(--success); }
+    .code-block .cmd { color: var(--text); }
+    .code-block .comment { color: var(--text-tertiary); }
+    .code-block .string { color: var(--accent); }
+    .code-block .key { color: var(--info); }
+    .code-block .val { color: var(--accent-light); }
+
+    .copy-btn {
+      position: absolute; top: 0.5rem; right: 3.5rem;
+      padding: 0.25rem 0.6rem; font-size: 0.68rem; font-weight: 600;
+      color: var(--text-tertiary); background: var(--bg-elevated);
+      border: 1px solid var(--border); border-radius: var(--radius-sm);
+      cursor: pointer; transition: all 0.15s; font-family: var(--font-body);
+    }
+    .copy-btn:hover { color: var(--text); border-color: var(--border-hover); }
+
+    /* Inline code */
+    .docs-content code:not(pre code) {
+      background: var(--bg-elevated); padding: 0.15rem 0.4rem; border-radius: 4px;
+      font-size: 0.82rem; color: var(--accent); font-family: var(--font-mono);
+    }
+
+    /* Config table */
+    .config-table {
+      width: 100%; border-collapse: collapse; margin: 1rem 0 1.5rem; font-size: 0.85rem;
+    }
+    .config-table th {
+      text-align: left; padding: 0.6rem 0.8rem; font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-tertiary);
+      border-bottom: 1px solid var(--border); font-weight: 600;
+    }
+    .config-table td {
+      padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--border);
+      color: var(--text-secondary); vertical-align: top;
+    }
+    .config-table tr:last-child td { border-bottom: none; }
+    .config-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .config-table .key { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text); font-weight: 500; }
+    .config-table .type { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-tertiary); }
+
+    /* Callout */
+    .callout {
+      padding: 1rem 1.2rem; border-radius: var(--radius-sm); margin: 1rem 0 1.5rem;
+      font-size: 0.88rem; line-height: 1.6; border-left: 3px solid;
+    }
+    .callout.tip { background: rgba(34, 197, 94, 0.06); border-color: var(--success); color: var(--text-secondary); }
+    .callout.warn { background: rgba(251, 191, 36, 0.06); border-color: var(--warning); color: var(--text-secondary); }
+    .callout.info { background: rgba(56, 189, 248, 0.06); border-color: var(--info); color: var(--text-secondary); }
+    .callout strong { color: var(--text); }
+
+    /* Method pill */
+    .method {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.15rem 0.5rem; border-radius: var(--radius-sm);
+      font-size: 0.7rem; font-weight: 700; font-family: var(--font-mono);
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .method.get { background: rgba(34, 197, 94, 0.12); color: var(--success); }
+    .method.post { background: rgba(56, 189, 248, 0.12); color: var(--info); }
+    .method.delete { background: rgba(248, 113, 113, 0.12); color: var(--danger); }
+    .method::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+    @media (max-width: 768px) {
+      .docs-layout { grid-template-columns: 1fr; }
+      .docs-sidebar { display: none; }
+      .docs-content { padding: 2rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand"><span class="icon">🛡️</span> <span class="highlight">Sentinel</span> <span style="font-size:0.7em;color:var(--text-secondary);font-weight:500;">AI Agent Security</span></a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="docs.html">Docs</a>
+        <a href="features.html">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="blog.html">Blog</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://github.com/ParthaMehtaOrg/log-prompt-agent" target="_blank">GitHub</a>
+        <a href="contact.html" class="nav-cta">Get Started</a>
+        <a href="pricing.html" class="nav-cta">Get License</a>
+      </div>
+    </div>
+  </nav>
+
+  <div style="padding-top:60px;">
+    <div class="docs-layout">
+
+      <!-- Sidebar -->
+      <aside class="docs-sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-heading">Getting Started</div>
+          <a href="#install" class="sidebar-link active">Installation</a>
+          <a href="#services" class="sidebar-link">Services &amp; Ports</a>
+          <a href="#hook" class="sidebar-link">Auto-Instrumentation</a>
+          <a href="#doctor" class="sidebar-link">Diagnostics</a>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-heading">Security Layers</div>
+          <a href="#policy-engine" class="sidebar-link">Policy Engine</a>
+          <a href="#endpoint-monitors" class="sidebar-link">Endpoint Monitors</a>
+          <a href="#block-rules" class="sidebar-link">Block Rules</a>
+          <a href="#dlp-scanners" class="sidebar-link">DLP Scanners</a>
+          <a href="#llm-proxy" class="sidebar-link">LLM Proxy</a>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-heading">OpenClaw Plugin</div>
+          <a href="#plugin-hooks" class="sidebar-link">8 Security Hooks</a>
+          <a href="#plugin-tools" class="sidebar-link">Secure Tools</a>
+          <a href="#channels" class="sidebar-link">Channel Security</a>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-heading">Compliance</div>
+          <a href="#breach-intel" class="sidebar-link">Breach Intel</a>
+          <a href="#fintech" class="sidebar-link">Fintech</a>
+          <a href="#healthcare" class="sidebar-link">Healthcare</a>
+          <a href="#pharma" class="sidebar-link">Pharma</a>
+          <a href="#hash-chain" class="sidebar-link">Hash Chain</a>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-heading">Dashboard</div>
+          <a href="#dashboard" class="sidebar-link">Unified Dashboard</a>
+          <a href="#traces" class="sidebar-link">Traces &amp; Cost</a>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-heading">Reference</div>
+          <a href="#api" class="sidebar-link">REST API</a>
+          <a href="#cli" class="sidebar-link">CLI Reference</a>
+          <a href="#env" class="sidebar-link">Environment Variables</a>
+          <a href="#docker" class="sidebar-link">Container Security</a>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main class="docs-content">
+        <h1>Documentation</h1>
+        <p class="lead">Everything you need to install, configure, and run Sentinel — the unified AI agent security platform.</p>
+
+        <!-- Installation -->
+        <h2 id="install">Installation</h2>
+        <p>Sentinel installs with three commands. The installer handles everything automatically.</p>
+
+        <div class="code-block">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><span class="prompt">$</span> <span class="cmd">git clone https://github.com/ParthaMehtaOrg/log-prompt-agent.git</span>
+<span class="prompt">$</span> <span class="cmd">cd log-prompt-agent && git checkout feature/unified-sentinel</span>
+<span class="prompt">$</span> <span class="cmd">./install.sh</span></pre>
+        </div>
+
+        <p>The installer does the following:</p>
+        <ol>
+          <li>Sets up OpenClaw gateway and LLM provider</li>
+          <li>Installs the 8-hook security plugin + observation hook</li>
+          <li>Installs the <code>sentinel</code> Python package with all dependencies</li>
+          <li>Seeds default block rules (passwords, API keys, SSNs, credit cards)</li>
+          <li>Generates breach-intel credentials (<code>~/.breach-intel/.env</code>)</li>
+          <li>Adds <code>BREACH_INTEL_URL</code> + <code>BREACH_INTEL_TOKEN</code> to your shell profile</li>
+          <li>Installs a <code>sitecustomize.py</code> hook so every Python process is auto-monitored</li>
+          <li>Configures the LLM proxy (routes OpenClaw LLM traffic through Sentinel for inspection)</li>
+          <li>Starts three background services that auto-start on login/boot</li>
+          <li>Restarts the gateway</li>
+        </ol>
+
+        <div class="callout tip"><strong>After install:</strong> everything runs automatically. No servers to start, no tokens to set, no env vars to configure, no code changes. Every Python agent using OpenAI, Anthropic, or LangChain is automatically monitored.</div>
+
+        <h3>Prerequisites</h3>
+        <ul>
+          <li>Python 3.10+</li>
+          <li>Node.js 22+ (for OpenClaw)</li>
+        </ul>
+
+        <!-- Services -->
+        <h2 id="services">Services &amp; Ports</h2>
+        <p>All services auto-start on boot via macOS LaunchAgent. Nothing to configure.</p>
+
+        <table class="config-table">
+          <thead><tr><th>Service</th><th>Port</th><th>Auto-starts?</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td class="key">OpenClaw Gateway</td><td>18789</td><td>Yes (LaunchAgent)</td><td>AI agent runtime with 8 security hooks</td></tr>
+            <tr><td class="key">Policy Engine</td><td>8000</td><td>Yes (LaunchAgent)</td><td>Prompt analysis, DLP, unified dashboard</td></tr>
+            <tr><td class="key">Breach Intel</td><td>8081</td><td>Yes (LaunchAgent)</td><td>Compliance breach classification &amp; audit</td></tr>
+            <tr><td class="key">LLM Proxy</td><td>18790</td><td>Yes (LaunchAgent)</td><td>Intercept &amp; inspect LLM API responses</td></tr>
+            <tr><td class="key">Auto-Instrumentation</td><td>&mdash;</td><td>Yes (sitecustomize.py)</td><td>Monkey-patch all LLM frameworks</td></tr>
+            <tr><td class="key">OpenClaw Plugin</td><td>&mdash;</td><td>Yes (loaded by gateway)</td><td>8-hook + 2-tool security enforcement</td></tr>
+          </tbody>
+        </table>
+
+        <!-- Auto-Instrumentation -->
+        <h2 id="hook">Auto-Instrumentation</h2>
+        <p>Sentinel uses Python's <code>sitecustomize.py</code> mechanism to auto-patch AI frameworks at import time. No code changes required.</p>
+
+        <h3>How it works</h3>
+        <ol>
+          <li><code>./install.sh</code> writes a persistent <code>sitecustomize.py</code> hook to your Python site-packages</li>
+          <li>When any Python process starts, the hook runs first</li>
+          <li>It checks for the <code>BREACH_INTEL_URL</code> environment variable (set in your shell profile by the installer)</li>
+          <li>If set, it calls <code>auto_attach()</code> which monkey-patches all detected AI framework methods</li>
+          <li>The agent auto-registers (agent_id from hostname + PID, detected frameworks as capabilities)</li>
+          <li>Every LLM response is silently sent to the breach-intel policy agent for classification &mdash; including trace_id, span_id, latency_ms, and token counts</li>
+        </ol>
+
+        <h3>Supported frameworks</h3>
+        <table class="config-table">
+          <thead><tr><th>Framework</th><th>Patched Method</th></tr></thead>
+          <tbody>
+            <tr><td class="key">OpenAI</td><td><code>chat.completions.create</code></td></tr>
+            <tr><td class="key">Anthropic</td><td><code>messages.create</code> / <code>AsyncMessages.create</code></td></tr>
+            <tr><td class="key">LangChain</td><td><code>BaseChatModel.invoke</code> / <code>ainvoke</code></td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout info"><strong>Note:</strong> If <code>BREACH_INTEL_URL</code> is not set, the hook exits silently with zero overhead. Your agents are unaffected.</div>
+
+        <h3>Example (zero code changes)</h3>
+        <div class="code-block">
+          <span class="code-lang">python</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><span class="comment"># This agent has NO sentinel imports &mdash; monitoring is automatic</span>
+<span class="cmd">import</span> openai
+
+client = openai.OpenAI()
+response = client.chat.completions.create(
+    model=<span class="string">"gpt-4o"</span>,
+    messages=[{<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: <span class="string">"Look up customer SSN"</span>}]
+)
+<span class="comment"># This response is silently emitted to the breach-intel policy agent.</span>
+<span class="comment"># If it contains PII, a CRITICAL breach is logged automatically.</span></pre>
+        </div>
+
+        <!-- Diagnostics -->
+        <h2 id="doctor">Diagnostics</h2>
+        <p>Run diagnostics to verify your installation:</p>
+        <div class="code-block">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><span class="prompt">$</span> <span class="cmd">python -m sentinel.breach_intel.sdk.cli doctor</span>
+<span class="comment">&#10003; BREACH_INTEL_URL = http://localhost:8081</span>
+<span class="comment">&#10003; Persistent hook installed</span>
+<span class="comment">&#10003; Detected frameworks: OpenAI, Anthropic</span>
+<span class="comment">&#10003; Server health: OK</span>
+<span class="comment">&#10003; Credentials: valid</span>
+<span class="comment">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</span>
+<span class="comment">All checks passed.</span></pre>
+        </div>
+
+        <!-- Policy Engine -->
+        <h2 id="policy-engine">Policy Engine</h2>
+        <p>The policy engine provides 3-layer prompt analysis, running on port 8000.</p>
+
+        <table class="config-table">
+          <thead><tr><th>Layer</th><th>Speed</th><th>Method</th></tr></thead>
+          <tbody>
+            <tr><td class="key">Layer 0</td><td>&lt;1ms</td><td>Pattern matching (prompt injection, sensitive files, exfil commands)</td></tr>
+            <tr><td class="key">Layer 1</td><td>&lt;50ms</td><td>Weighted risk scoring (6 categories, compound patterns, evasion detection)</td></tr>
+            <tr><td class="key">Layer 2</td><td>1-5s</td><td>Local Ollama LLM (semantic analysis for ambiguous cases)</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout tip"><strong>Key guarantee:</strong> Layer 0 and Layer 1 are always deterministic and fast. Layer 2 (LLM) is only invoked for ambiguous cases and never blocks the agent.</div>
+
+        <!-- Endpoint Monitors -->
+        <h2 id="endpoint-monitors">Endpoint Monitors</h2>
+        <p>Five monitors run concurrently, detecting threats at the system level.</p>
+
+        <table class="config-table">
+          <thead><tr><th>Monitor</th><th>What It Detects</th></tr></thead>
+          <tbody>
+            <tr><td class="key">Process</td><td>Malicious agent processes (OpenClaw, AutoGPT), environment variable secrets</td></tr>
+            <tr><td class="key">Behavioral</td><td>7-signal EMA anomaly scoring: file spikes, network bursts, CPU anomalies</td></tr>
+            <tr><td class="key">File</td><td>Filesystem events via watchdog &mdash; threat file creation, sensitive file access, real-time DLP</td></tr>
+            <tr><td class="key">Honeypot</td><td>Decoy files (~/.honeypot/.env, .aws/credentials, .ssh/id_rsa) &mdash; any access triggers alert</td></tr>
+            <tr><td class="key">Privilege</td><td>Root/admin detection, world-readable secret files</td></tr>
+          </tbody>
+        </table>
+
+        <!-- Block Rules -->
+        <h2 id="block-rules">Block Rules</h2>
+        <p>The block rule engine supports keyword, regex, recipient, and channel rules. Default rules are seeded during installation.</p>
+        <div class="code-block">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><span class="prompt">$</span> <span class="cmd">python -m sentinel rules --list</span>
+<span class="prompt">$</span> <span class="cmd">python -m sentinel rules --add keyword:password --reason "sensitive"</span>
+<span class="prompt">$</span> <span class="cmd">python -m sentinel rules --remove r_abc12345</span>
+<span class="prompt">$</span> <span class="cmd">python -m sentinel rules --add "channel:whatsapp" --reason "WhatsApp disabled"</span>
+<span class="prompt">$</span> <span class="cmd">python -m sentinel rules --add "recipient:+1234567890" --reason "blocked number"</span></pre>
+        </div>
+
+        <!-- DLP Scanners -->
+        <h2 id="dlp-scanners">DLP Scanners</h2>
+        <p>9 scanners run on content, detecting PII, credentials, financial data, and more. Includes LLM classification across 8 threat categories.</p>
+        <ul>
+          <li>DLP scanner (SSNs, credit cards, emails, phone numbers)</li>
+          <li>Credential scanner (API keys, tokens, passwords)</li>
+          <li>Prompt Guard (3-layer analysis)</li>
+          <li>Content Analyzer (LLM-powered classification)</li>
+          <li>Text Extractor</li>
+          <li>Financial data scanner</li>
+          <li>PII pattern scanner</li>
+          <li>Secret file scanner</li>
+          <li>Exfiltration command scanner</li>
+        </ul>
+
+        <!-- LLM Proxy -->
+        <h2 id="llm-proxy">LLM Proxy</h2>
+        <p>The proxy sits between OpenClaw and upstream LLM APIs (Anthropic, OpenAI) on port 18790. For every request it:</p>
+        <ul>
+          <li><strong>Measures latency</strong> (wall-clock round-trip time)</li>
+          <li><strong>Extracts token counts</strong> from response JSON/SSE streams</li>
+          <li><strong>Computes cost</strong> using a built-in pricing table (16 models)</li>
+          <li><strong>Checks block rules</strong> &mdash; replaces blocked responses with <code>[Blocked]</code></li>
+          <li><strong>Reports trace spans</strong> to the policy engine (<code>POST /trace</code>)</li>
+        </ul>
+        <p>All data feeds into the dashboard's Overview (cost/latency cards, model heatmaps) and Traces tab (expandable span trees).</p>
+
+        <!-- Plugin Hooks -->
+        <h2 id="plugin-hooks">8 Security Hooks</h2>
+        <p>The OpenClaw plugin enforces security at 8 hook points. Every hook auto-connects to both the policy engine and breach-intel.</p>
+        <ol>
+          <li><code>message_received</code> &rarr; prompt attack detection</li>
+          <li><code>before_tool_call</code> &rarr; tool pre-validation</li>
+          <li><code>after_tool_call</code> &rarr; DLP scan on tool results</li>
+          <li><code>before_prompt_build</code> &rarr; inject block rules into system prompt</li>
+          <li><code>llm_input</code> &rarr; deep prompt analysis, can BLOCK LLM call entirely</li>
+          <li><code>llm_output</code> &rarr; DLP scan + local rules + auto-emit to breach-intel</li>
+          <li><code>message_sending</code> &rarr; hard-block outbound to channels</li>
+          <li><code>before_message_write</code> &rarr; block session transcript persistence</li>
+        </ol>
+
+        <!-- Secure Tools -->
+        <h2 id="plugin-tools">Secure Tools</h2>
+        <p>Two additional tools provide DLP-filtered access:</p>
+        <ul>
+          <li><code>secure_read</code> &mdash; reads files with content scanning, blocks if PII/credentials detected</li>
+          <li><code>secure_exec</code> &mdash; executes commands with output scanning, blocks if sensitive data in output</li>
+        </ul>
+
+        <!-- Channel Security -->
+        <h2 id="channels">Channel Security</h2>
+        <p>OpenClaw has native channel adapters. After connecting a channel, all Sentinel hooks enforce automatically.</p>
+        <div class="code-block">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><span class="comment"># Telegram</span>
+<span class="prompt">$</span> <span class="cmd">openclaw channels add --channel telegram --token YOUR_BOT_TOKEN</span>
+
+<span class="comment"># WhatsApp (QR code pairing)</span>
+<span class="prompt">$</span> <span class="cmd">openclaw channels login --channel whatsapp</span>
+
+<span class="comment"># Discord</span>
+<span class="prompt">$</span> <span class="cmd">openclaw channels add --channel discord --token YOUR_DISCORD_BOT_TOKEN</span>
+
+<span class="comment"># Verify</span>
+<span class="prompt">$</span> <span class="cmd">openclaw channels status --probe</span></pre>
+        </div>
+        <p>The <code>message_sending</code> hook blocks outbound messages containing PII/credentials, and <code>before_message_write</code> prevents them from being saved to conversation history.</p>
+
+        <!-- Breach Intel -->
+        <h2 id="breach-intel">Breach Intel</h2>
+        <p>Rule-based breach classification &mdash; deterministic, &lt;1ms per event, no LLM in the critical path. Runs on port 8081.</p>
+
+        <h3>Breach Intel SDK (for explicit use)</h3>
+        <div class="code-block">
+          <span class="code-lang">python</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre><span class="cmd">from</span> sentinel.breach_intel.sdk <span class="cmd">import</span> PolicyAgentClient
+
+client = PolicyAgentClient(<span class="string">"http://localhost:8081"</span>, agent_id=<span class="string">"my-agent"</span>)
+result = client.emit_llm_response(<span class="string">"Customer SSN is 123-45-6789"</span>)
+<span class="comment"># result.is_breach = True, result.severity = "CRITICAL"</span></pre>
+        </div>
+
+        <!-- Verticals -->
+        <h2 id="fintech">Fintech</h2>
+        <p>12 breach types. Covers: PII_EXPOSURE, CARD_DATA_EXPOSURE, CROSS_TENANT_LEAK, DATA_EXFILTRATION, SUSPICIOUS_TRANSACTION, UNAUTHORIZED_ACCESS, PRIVILEGE_ESCALATION, REGULATORY_VIOLATION, HALLUCINATION_FINANCIAL, AUDIT_TRAIL_MISSING, SCOPE_CREEP, UNAPPROVED_EXTERNAL_CALL.</p>
+        <p>Regulations: PCI-DSS, SOX, GDPR.</p>
+
+        <h2 id="healthcare">Healthcare</h2>
+        <p>14 breach types. Covers: PHI_EXPOSURE, CLINICAL_NOTE_LEAK, UNAUTHORIZED_PRESCRIPTION_ACTION, DIAGNOSTIC_HALLUCINATION, MINORS_DATA_EXPOSURE, MENTAL_HEALTH_DISCLOSURE, HIV_STATUS_DISCLOSURE, GENOMIC_DATA_EXPOSURE, INSURANCE_DATA_LEAK, CROSS_PATIENT_LEAK, and more.</p>
+        <p>Regulations: HIPAA, 42 CFR Part 2, GDPR.</p>
+
+        <h2 id="pharma">Pharma</h2>
+        <p>14 breach types. Covers: TRIAL_DATA_FABRICATION, UNBLINDING_BREACH, AUDIT_TRAIL_VIOLATION_21CFR11, ESIGNATURE_BYPASS, REGULATORY_SUBMISSION_VIOLATION, PHARMACOVIGILANCE_BREACH, GMP_VIOLATION, and more.</p>
+        <p>Regulations: FDA 21-CFR Part 11, ICH-E6 (GCP), ICH-Q10 (GMP).</p>
+
+        <!-- Hash Chain -->
+        <h2 id="hash-chain">Hash Chain</h2>
+        <p>Every breach record is SHA-256 checksummed. Each record includes the hash of the previous record, forming an immutable chain. No UPDATE or DELETE allowed.</p>
+        <div class="code-block">
+          <span class="code-lang">json</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre>{
+  <span class="key">"id"</span>: <span class="string">"br_00042"</span>,
+  <span class="key">"breach_type"</span>: <span class="string">"PII_EXPOSURE"</span>,
+  <span class="key">"severity"</span>: <span class="string">"CRITICAL"</span>,
+  <span class="key">"prev_hash"</span>: <span class="string">"a3f8c1d9..."</span>,
+  <span class="key">"record_hash"</span>: <span class="string">"7b2e4f8a..."</span>,
+  <span class="key">"timestamp"</span>: <span class="string">"2026-04-15T14:22:01Z"</span>
+}</pre>
+        </div>
+        <p>Tamper detection runs automatically. If a single record is modified, the chain breaks and an alert is created.</p>
+
+        <!-- Dashboard -->
+        <h2 id="dashboard">Unified Dashboard</h2>
+        <p>Access at <code>http://localhost:8000/unified</code> &mdash; a React SPA with 6 tabs. Auto-refreshes every 3 seconds.</p>
+
+        <table class="config-table">
+          <thead><tr><th>Tab</th><th>What It Shows</th></tr></thead>
+          <tbody>
+            <tr><td class="key">Overview</td><td>Total events, blocked/allowed, PII leaks, breaches, risk prompts, total cost, tokens, avg/p95 latency, model usage heatmaps</td></tr>
+            <tr><td class="key">Live Events</td><td>Real-time SSE feed &mdash; click any event for full detail modal</td></tr>
+            <tr><td class="key">Traces</td><td>LLM call traces grouped by trace_id &mdash; expandable span trees with per-span latency, tokens, cost, blocked status</td></tr>
+            <tr><td class="key">Breach Monitor</td><td>Compliance breach log with severity badges &mdash; click for forensic detail</td></tr>
+            <tr><td class="key">Block Rules</td><td>Active block rules with CLI management instructions</td></tr>
+            <tr><td class="key">Settings</td><td>Configure breach-intel API connection (auto-configured by installer)</td></tr>
+          </tbody>
+        </table>
+
+        <!-- Traces -->
+        <h2 id="traces">Traces &amp; Cost Tracking</h2>
+        <p>The LLM proxy reports trace spans for every request. The dashboard's Traces tab shows expandable span trees with:</p>
+        <ul>
+          <li>Per-span latency (wall-clock round-trip)</li>
+          <li>Input/output token counts</li>
+          <li>Cost computed from the built-in 16-model pricing table</li>
+          <li>Blocked status (if a block rule was triggered)</li>
+          <li>Model and provider identification</li>
+        </ul>
+
+        <!-- REST API -->
+        <h2 id="api">REST API</h2>
+
+        <h3>Policy Engine (port 8000)</h3>
+
+        <h3><span class="method post">POST</span> <code>/prompt</code></h3>
+        <p>Submit a prompt for 3-layer analysis. Returns risk score, category, and block decision.</p>
+
+        <h3><span class="method post">POST</span> <code>/check</code></h3>
+        <p>Quick check for block rules and pattern matching.</p>
+
+        <h3><span class="method post">POST</span> <code>/llm-input</code></h3>
+        <p>Pre-LLM-call analysis. Can block the LLM call entirely.</p>
+
+        <h3><span class="method post">POST</span> <code>/llm-output</code></h3>
+        <p>Post-LLM-call DLP scan and breach detection.</p>
+
+        <h3><span class="method post">POST</span> <code>/trace</code></h3>
+        <p>Submit a trace span (from LLM proxy or auto-instrumentation).</p>
+
+        <h3><span class="method get">GET</span> <code>/traces</code></h3>
+        <p>List trace spans, grouped by trace_id.</p>
+
+        <h3><span class="method get">GET</span> <code>/events</code></h3>
+        <p>SSE stream of real-time security events.</p>
+
+        <h3><span class="method get">GET</span> <code>/unified</code></h3>
+        <p>Serves the unified dashboard SPA.</p>
+
+        <h3>Breach Intel (port 8081)</h3>
+
+        <h3><span class="method post">POST</span> <code>/events</code></h3>
+        <p>Submit an agent event for breach classification.</p>
+
+        <h3><span class="method get">GET</span> <code>/breaches</code></h3>
+        <p>List breach records. Supports filtering by agent, severity, type, and date range.</p>
+
+        <h3><span class="method get">GET</span> <code>/agents</code></h3>
+        <p>List registered agents with framework info and breach counts.</p>
+
+        <h3><span class="method get">GET</span> <code>/health</code></h3>
+        <p>Server health check.</p>
+
+        <!-- CLI -->
+        <h2 id="cli">CLI Reference</h2>
+        <table class="config-table">
+          <thead><tr><th>Command</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td class="key">python -m sentinel watch [--api] [--proxy]</td><td>Monitors + API + LLM proxy</td></tr>
+            <tr><td class="key">python -m sentinel api [--port 8000]</td><td>Policy engine + dashboard</td></tr>
+            <tr><td class="key">python -m sentinel breach [--port 8081]</td><td>Breach compliance server</td></tr>
+            <tr><td class="key">python -m sentinel proxy</td><td>LLM response proxy</td></tr>
+            <tr><td class="key">python -m sentinel status</td><td>Check threats + privilege level</td></tr>
+            <tr><td class="key">python -m sentinel scan &lt;path&gt;</td><td>Scan directory for secrets/PII</td></tr>
+            <tr><td class="key">python -m sentinel intercept --source websocket|hook|pipe</td><td>Event interception</td></tr>
+            <tr><td class="key">python -m sentinel rules --list</td><td>View block rules</td></tr>
+            <tr><td class="key">python -m sentinel rules --add</td><td>Add block rule</td></tr>
+            <tr><td class="key">python -m sentinel install --hook|--plugin|--proxy-config</td><td>OpenClaw integration</td></tr>
+            <tr><td class="key">python -m sentinel.breach_intel.sdk.cli doctor</td><td>Diagnose setup</td></tr>
+            <tr><td class="key">python -m sentinel.breach_intel.sdk.cli status</td><td>Check server health</td></tr>
+            <tr><td class="key">python -m sentinel.breach_intel.sdk.cli install-hook</td><td>Install persistent hook</td></tr>
+            <tr><td class="key">python -m sentinel.breach_intel.sdk.cli uninstall-hook</td><td>Remove hook</td></tr>
+            <tr><td class="key">python -m sentinel.breach_intel.sdk.cli run python agent.py</td><td>One-shot monitoring</td></tr>
+          </tbody>
+        </table>
+
+        <!-- Environment Variables -->
+        <h2 id="env">Environment Variables</h2>
+        <p>These are set automatically by the installer. Manual configuration is only needed for advanced use.</p>
+
+        <table class="config-table">
+          <thead><tr><th>Variable</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td class="key">BREACH_INTEL_URL</td><td>Breach Intel server URL (default: http://localhost:8081)</td></tr>
+            <tr><td class="key">BREACH_INTEL_TOKEN</td><td>Agent-scoped API key for authentication</td></tr>
+            <tr><td class="key">SENTINEL_API_PORT</td><td>Policy engine port (default: 8000)</td></tr>
+            <tr><td class="key">SENTINEL_PROXY_PORT</td><td>LLM proxy port (default: 18790)</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout warn"><strong>Security:</strong> Never commit API keys or tokens to version control. Credentials are stored in <code>~/.breach-intel/.env</code> and injected into your shell profile by the installer.</div>
+
+        <!-- Container Security -->
+        <h2 id="docker">Container Security</h2>
+        <p>Sentinel includes a hardened Docker setup:</p>
+        <ul>
+          <li>Non-root user, read-only rootfs</li>
+          <li><code>cap_drop: ALL</code>, <code>no-new-privileges</code></li>
+          <li>Custom seccomp profile blocking ptrace, mount, bpf, kexec_load</li>
+          <li>9-point verification script</li>
+        </ul>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer" style="margin-top:0;">
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none;padding-top:0;">
+        <span class="footer-copy">&copy; 2026 Sentinel. All rights reserved.</span>
+        <div class="footer-socials">
+          <a href="index.html">Home</a>
+          <a href="docs.html">Docs</a>
+          <a href="features.html">Features</a>
+          <a href="pricing.html">Pricing</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="https://github.com/ParthaMehtaOrg/log-prompt-agent" target="_blank">GitHub</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Copy button
+    function copyCode(btn) {
+      const pre = btn.parentElement.querySelector('pre');
+      const text = pre.innerText.replace(/^\$ /gm, '');
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 1500);
+      });
+    }
+
+    // Scroll spy for sidebar
+    const sections = document.querySelectorAll('.docs-content h2[id]');
+    const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+    const spyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          sidebarLinks.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.sidebar-link[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+
+    sections.forEach(s => spyObserver.observe(s));
+  </script>
+</body>
+</html>

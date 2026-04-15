@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Sentinel AI Agent Security</title>
+  <meta name="description" content="Sentinel is a unified AI agent security platform built by security engineers for AI teams in regulated industries.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand"><span class="icon">🛡️</span> <span class="highlight">Sentinel</span> <span style="font-size:0.7em;color:var(--text-secondary);font-weight:500;">AI Agent Security</span></a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="docs.html">Docs</a>
+        <a href="features.html">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="blog.html">Blog</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://github.com/ParthaMehtaOrg/log-prompt-agent" target="_blank">GitHub</a>
+        <a href="contact.html" class="nav-cta">Get Started</a>
+        <a href="pricing.html" class="nav-cta">Get License</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>About Sentinel</h1>
+      <p>Built by security engineers, for AI teams.</p>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section>
+    <div class="container-narrow">
+      <div class="section-header fade-in">
+        <div class="section-eyebrow"><span class="dot"></span> Our Mission</div>
+        <h2 class="section-title">Unified security for AI agents</h2>
+      </div>
+      <div class="fade-in" style="font-size:0.95rem;color:var(--text-secondary);line-height:1.8;">
+        <p style="margin-bottom:1.5rem;">AI agents are making autonomous decisions in regulated industries — handling patient records, processing financial transactions, managing pharmaceutical trial data. Every one of these decisions is a potential compliance breach, data leak, or privilege escalation. The tooling to secure them didn't exist as a unified product.</p>
+        <p style="margin-bottom:1.5rem;">Sentinel was born from five separate open-source repositories, each solving one piece of the AI agent security puzzle. Individually, they worked. Together, they left gaps — different logging formats, no shared dashboard, no unified policy enforcement. We merged them into a single platform where every security layer talks to every other, every event feeds the same dashboard, and one install command protects every agent on the machine.</p>
+        <p style="margin-bottom:1.5rem;">Designed for regulated industries — fintech, healthcare, and pharma — Sentinel detects 40+ compliance breach types in under 1 millisecond using deterministic rule-based classifiers. No LLM sits in the critical path. Every detection produces an immutable, SHA-256-chained audit record that satisfies PCI-DSS, HIPAA, FDA 21-CFR Part 11, and SOX audit requirements.</p>
+        <p>The result: a single platform that gives AI teams the confidence to deploy agents in production, knowing that every prompt, every tool call, every LLM response, and every outgoing message is monitored, analyzed, and enforced in real time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Provenance -->
+  <section class="bg-warm">
+    <div class="container">
+      <div class="section-header center fade-in">
+        <div class="section-eyebrow"><span class="dot"></span> Provenance</div>
+        <h2 class="section-title">Five repos, one product</h2>
+        <p class="section-sub">Sentinel unifies code from five repositories into a single, cohesive platform. Here's what each contributed.</p>
+      </div>
+      <div class="table-wrap fade-in">
+        <table>
+          <thead>
+            <tr><th>Source Repository</th><th>What It Contributed</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>log-prompt-agent</td><td>Real-time interception, LLM proxy, block rules, content analyzer, plugin system</td></tr>
+            <tr><td>security-plugin-junaid</td><td>FastAPI policy engine, 3-layer detection, dashboards</td></tr>
+            <tr><td>SecurityAgent</td><td>Endpoint monitoring, scanners, secure filesystem, alerting, Docker, tests</td></tr>
+            <tr><td>openclaw</td><td>llm_input / llm_output hook compatibility, agent runtime</td></tr>
+            <tr><td>breach-intel</td><td>Compliance monitoring, multi-vertical classifiers, immutable audit log, SDK, auto-instrumentation</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Principles -->
+  <section>
+    <div class="container">
+      <div class="section-header center fade-in">
+        <div class="section-eyebrow"><span class="dot"></span> Principles</div>
+        <h2 class="section-title">How we build</h2>
+      </div>
+      <div class="grid-3 fade-in">
+        <div class="card">
+          <div class="card-icon indigo">⚡</div>
+          <h3>No LLM in the Critical Path</h3>
+          <p>Rule-based detection runs in under 1ms. LLM analysis is always asynchronous and optional — it never blocks the security pipeline or adds latency to agent responses.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon green">🔗</div>
+          <h3>Immutable by Default</h3>
+          <p>Every audit record is SHA-256 checksummed and chained. The database allows INSERT only — no UPDATE, no DELETE. Tamper detection runs automatically on every read.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon purple">🔌</div>
+          <h3>Zero Code Changes</h3>
+          <p>Auto-instrumentation via sitecustomize.py means agents are protected the moment they run. No SDK, no decorators, no middleware. Just install and run.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container-narrow fade-in">
+      <h2 class="section-title" style="position:relative;z-index:1;">Join us in securing AI agents.</h2>
+      <p class="section-sub" style="margin:1rem auto 2rem;position:relative;z-index:1;">Whether you're deploying agents in fintech, healthcare, or pharma — we'd love to hear from you.</p>
+      <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;">
+        <a href="contact.html" class="btn btn-primary btn-lg">Get in Touch</a>
+        <a href="https://github.com/ParthaMehtaOrg/log-prompt-agent" target="_blank" class="btn btn-outline btn-lg">View on GitHub →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="simple-footer">
+    <div class="simple-footer-inner">
+      <span class="simple-footer-copy">&copy; 2026 Sentinel</span>
+      <div class="simple-footer-links">
+        <a href="index.html">Home</a>
+        <a href="docs.html">Docs</a>
+        <a href="features.html">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://github.com/ParthaMehtaOrg/log-prompt-agent" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

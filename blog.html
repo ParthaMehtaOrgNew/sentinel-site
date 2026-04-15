@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Sentinel AI Agent Security</title>
+  <meta name="description" content="Insights on AI agent security, compliance, and best practices from the Sentinel team.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand"><span class="icon">🛡️</span> <span class="highlight">Sentinel</span> <span style="font-size:0.7em;color:var(--text-secondary);font-weight:500;">AI Agent Security</span></a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="docs.html">Docs</a>
+        <a href="features.html">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="blog.html">Blog</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://github.com/ParthaMehtaOrg/log-prompt-agent" target="_blank">GitHub</a>
+        <a href="contact.html" class="nav-cta">Get Started</a>
+        <a href="pricing.html" class="nav-cta">Get License</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Blog</h1>
+      <p>Insights on AI agent security, compliance, and best practices.</p>
+    </div>
+  </section>
+
+  <!-- Blog Grid -->
+  <section>
+    <div class="container">
+      <div class="blog-grid fade-in">
+
+        <!-- Post 1 -->
+        <div class="blog-card">
+          <div class="blog-card-img">🛡️</div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span>Apr 2026</span>
+              <span>&middot;</span>
+              <span>Security</span>
+            </div>
+            <h3>Why AI Agents Need Runtime Security</h3>
+            <p>AI agents make thousands of autonomous decisions per session. Without runtime monitoring, a single prompt injection can exfiltrate sensitive data, escalate privileges, or trigger unauthorized tool calls — all before any human reviews the output. Traditional API-level security catches nothing once the agent is running. Sentinel's 8-hook architecture intercepts every decision point: from the moment a message arrives, through tool calls and prompt construction, to the final LLM output and channel delivery. Each hook enforces policy in real time, creating an unbroken security perimeter around every agent action. This is the difference between auditing logs after a breach and preventing the breach from happening at all.</p>
+          </div>
+        </div>
+
+        <!-- Post 2 -->
+        <div class="blog-card">
+          <div class="blog-card-img">⚡</div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span>Mar 2026</span>
+              <span>&middot;</span>
+              <span>Engineering</span>
+            </div>
+            <h3>Compliance Breach Detection at Sub-Millisecond Speed</h3>
+            <p>How Sentinel's rule-based classifier detects 40+ breach types in under 1ms without any LLM in the critical path. The breach-intel engine uses deterministic pattern matching to classify compliance violations across three regulated verticals: fintech (PCI-DSS, SOX, GDPR), healthcare (HIPAA, 42 CFR Part 2), and pharma (FDA 21-CFR Part 11, ICH-E6, GMP). Every classification produces an immutable audit record with a SHA-256 checksum chained to the previous entry — creating a tamper-evident log that satisfies even the strictest regulatory auditors. LLM-powered deep analysis is available for ambiguous cases, but it runs asynchronously and never blocks the detection pipeline.</p>
+          </div>
+        </div>
+
+        <!-- Post 3 -->
+        <div class="blog-card">
+          <div class="blog-card-img">🐍</div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span>Mar 2026</span>
+              <span>&middot;</span>
+              <span>Deep Dive</span>
+            </div>
+            <h3>Zero-Code Instrumentation: How sitecustomize.py Changes Everything</h3>
+            <p>Python's sitecustomize.py mechanism lets us patch every AI framework at import time. Here's how it works and why it matters. When Python starts, it automatically imports sitecustomize.py before any user code runs. Sentinel installs a persistent hook in this file that monkey-patches the OpenAI, Anthropic, and LangChain client libraries at import time. Every API call is transparently routed through Sentinel's policy engine and LLM proxy — capturing prompts, responses, tokens, latency, and cost. The agent developer changes zero lines of code. There's no SDK to install, no decorator to add, no middleware to configure. Any Python process on the machine is automatically protected the moment it imports an LLM library.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container-narrow fade-in">
+      <h2 class="section-title" style="position:relative;z-index:1;">Stay up to date.</h2>
+      <p class="section-sub" style="margin:1rem auto 2rem;position:relative;z-index:1;">Follow our engineering blog for deep dives on AI agent security, new feature announcements, and compliance guidance.</p>
+      <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;">
+        <a href="contact.html" class="btn btn-primary btn-lg">Subscribe for Updates</a>
+        <a href="https://github.com/ParthaMehtaOrg/log-prompt-agent" target="_blank" class="btn btn-outline btn-lg">View on GitHub →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="simple-footer">
+    <div class="simple-footer-inner">
+      <span class="simple-footer-copy">&copy; 2026 Sentinel</span>
+      <div class="simple-footer-links">
+        <a href="index.html">Home</a>
+        <a href="docs.html">Docs</a>
+        <a href="features.html">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://github.com/ParthaMehtaOrg/log-prompt-agent" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
